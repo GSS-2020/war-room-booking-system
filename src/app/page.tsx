@@ -42,59 +42,61 @@ export default function HomePage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6 p-4 sm:p-0">
       {/* Tab Navigation */}
-      <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg max-w-md">
+      <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg w-full sm:max-w-md">
         <button
           onClick={() => setActiveTab('calendar')}
-          className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+          className={`flex-1 py-2 px-2 sm:px-4 rounded-md text-xs sm:text-sm font-medium transition-colors ${
             activeTab === 'calendar'
               ? 'bg-white text-gray-900 shadow-sm'
               : 'text-gray-600 hover:text-gray-900'
           }`}
         >
-          📅 Dashboard Kalendar
+          <span className="hidden sm:inline">📅 Dashboard Kalendar</span>
+          <span className="sm:hidden">📅 Kalendar</span>
         </button>
         <button
           onClick={() => setActiveTab('form')}
-          className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+          className={`flex-1 py-2 px-2 sm:px-4 rounded-md text-xs sm:text-sm font-medium transition-colors ${
             activeTab === 'form'
               ? 'bg-white text-gray-900 shadow-sm'
               : 'text-gray-600 hover:text-gray-900'
           }`}
         >
-          ➕ Buat Tempahan
+          <span className="hidden sm:inline">➕ Buat Tempahan</span>
+          <span className="sm:hidden">➕ Tempahan</span>
         </button>
       </div>
 
       {/* Room Status Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white shadow rounded-lg p-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-6">
+        <div className="bg-white shadow rounded-lg p-4 sm:p-6">
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                <span className="text-white text-sm font-medium">W1</span>
+              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                <span className="text-white text-xs sm:text-sm font-medium">W1</span>
               </div>
             </div>
-            <div className="ml-4">
-              <h3 className="text-lg font-medium text-gray-900">War Room 1</h3>
-              <p className="text-sm text-gray-600">
+            <div className="ml-3 sm:ml-4 min-w-0 flex-1">
+              <h3 className="text-sm sm:text-lg font-medium text-gray-900 truncate">War Room 1</h3>
+              <p className="text-xs sm:text-sm text-gray-600">
                 {bookings.filter(b => b.bilik === 'War Room 1').length} tempahan aktif
               </p>
             </div>
           </div>
         </div>
         
-        <div className="bg-white shadow rounded-lg p-6">
+        <div className="bg-white shadow rounded-lg p-4 sm:p-6">
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                <span className="text-white text-sm font-medium">W2</span>
+              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-green-500 rounded-full flex items-center justify-center">
+                <span className="text-white text-xs sm:text-sm font-medium">W2</span>
               </div>
             </div>
-            <div className="ml-4">
-              <h3 className="text-lg font-medium text-gray-900">War Room 2</h3>
-              <p className="text-sm text-gray-600">
+            <div className="ml-3 sm:ml-4 min-w-0 flex-1">
+              <h3 className="text-sm sm:text-lg font-medium text-gray-900 truncate">War Room 2</h3>
+              <p className="text-xs sm:text-sm text-gray-600">
                 {bookings.filter(b => b.bilik === 'War Room 2').length} tempahan aktif
               </p>
             </div>
