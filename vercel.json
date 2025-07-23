@@ -5,11 +5,5 @@
       "src": "package.json",
       "use": "@vercel/next"
     }
-  ],
-  "functions": {
-    "src/app/api/**": {
-      "maxDuration": 30
-    }
-  },
-  "regions": ["iad1"]
+  ]
 }

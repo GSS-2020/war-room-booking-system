@@ -12,29 +12,13 @@ export default function HomePage() {
 
   const fetchBookings = async () => {
     try {
-      setLoading(true);
-      const response = await fetch('/api/bookings', {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        // Add timeout for Vercel
-        signal: AbortSignal.timeout(10000) // 10 second timeout
-      });
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
+      const response = await fetch('/api/bookings');
       const data = await response.json();
       if (data.success) {
-        setBookings(data.data || []);
-      } else {
-        console.error('API returned error:', data.error);
-        setBookings([]);
+        setBookings(data.data);
       }
     } catch (error) {
       console.error('Failed to fetch bookings:', error);
-      setBookings([]); // Set empty array on error
     } finally {
       setLoading(false);
     }
