@@ -1,0 +1,113 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import BookingForm from '@/components/BookingForm';
+import BookingCalendar from '@/components/BookingCalendar';
+import { IBooking } from '@/models/Booking';
+
+export default function HomePage() {
+  const [bookings, setBookings] = useState<IBooking[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<'calendar' | 'form'>('calendar');
+
+  const fetchBookings = async () => {
+    try {
+      const response = await fetch('/api/bookings');
+      const data = await response.json();
+      if (data.success) {
+        setBookings(data.data);
+      }
+    } catch (error) {
+      console.error('Failed to fetch bookings:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchBookings();
+  }, []);
+
+  const handleBookingCreated = () => {
+    fetchBookings();
+    setActiveTab('calendar');
+  };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-64">
+        <div className="text-gray-600">Memuatkan...</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      {/* Tab Navigation */}
+      <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg max-w-md">
+        <button
+          onClick={() => setActiveTab('calendar')}
+          className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+            activeTab === 'calendar'
+              ? 'bg-white text-gray-900 shadow-sm'
+              : 'text-gray-600 hover:text-gray-900'
+          }`}
+        >
+          📅 Dashboard Kalendar
+        </button>
+        <button
+          onClick={() => setActiveTab('form')}
+          className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+            activeTab === 'form'
+              ? 'bg-white text-gray-900 shadow-sm'
+              : 'text-gray-600 hover:text-gray-900'
+          }`}
+        >
+          ➕ Buat Tempahan
+        </button>
+      </div>
+
+      {/* Room Status Overview */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="bg-white shadow rounded-lg p-6">
+          <div className="flex items-center">
+            <div className="flex-shrink-0">
+              <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                <span className="text-white text-sm font-medium">W1</span>
+              </div>
+            </div>
+            <div className="ml-4">
+              <h3 className="text-lg font-medium text-gray-900">War Room 1</h3>
+              <p className="text-sm text-gray-600">
+                {bookings.filter(b => b.bilik === 'War Room 1').length} tempahan aktif
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <div className="bg-white shadow rounded-lg p-6">
+          <div className="flex items-center">
+            <div className="flex-shrink-0">
+              <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                <span className="text-white text-sm font-medium">W2</span>
+              </div>
+            </div>
+            <div className="ml-4">
+              <h3 className="text-lg font-medium text-gray-900">War Room 2</h3>
+              <p className="text-sm text-gray-600">
+                {bookings.filter(b => b.bilik === 'War Room 2').length} tempahan aktif
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Tab Content */}
+      {activeTab === 'calendar' ? (
+        <BookingCalendar bookings={bookings} />
+      ) : (
+        <BookingForm onBookingCreated={handleBookingCreated} />
+      )}
+    </div>
+  );
+}

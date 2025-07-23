@@ -1,0 +1,35 @@
+{
+  "name": "booking-room-ng-mers-999",
+  "version": "1.0.0",
+  "description": "Room booking system for NG MERS 999 - War Room 1 and War Room 2",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit",
+    "vercel-build": "npm run build"
+  },
+  "dependencies": {
+    "next": "^14.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "mongodb": "^6.3.0",
+    "mongoose": "^8.0.0",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "typescript": "^5.0.0",
+    "react-big-calendar": "^1.8.5",
+    "moment": "^2.29.4",
+    "tailwindcss": "^3.3.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "eslint-config-next": "^14.0.0",
+    "@types/react-big-calendar": "^1.8.0"
+  }
+}
