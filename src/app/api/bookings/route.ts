@@ -62,3 +62,38 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+export async function DELETE(request: NextRequest) {
+  try {
+    await dbConnect();
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    if (!id) {
+      return NextResponse.json(
+        { success: false, error: 'ID diperlukan untuk delete booking' },
+        { status: 400 }
+      );
+    }
+
+    const deletedBooking = await Booking.findByIdAndDelete(id);
+
+    if (!deletedBooking) {
+      return NextResponse.json(
+        { success: false, error: 'Booking tidak dijumpai' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ 
+      success: true, 
+      message: 'Booking berjaya dipadamkan',
+      data: deletedBooking 
+    });
+  } catch (error) {
+    return NextResponse.json(
+      { success: false, error: 'Failed to delete booking' },
+      { status: 500 }
+    );
+  }
+}

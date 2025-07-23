@@ -2,14 +2,18 @@
 
 import { useState, useEffect } from 'react';
 import { IBooking } from '@/models/Booking';
+import BookingModal from './BookingModal';
 
 interface BookingCalendarProps {
   bookings: IBooking[];
+  onRefresh: () => void;
 }
 
-export default function BookingCalendar({ bookings }: BookingCalendarProps) {
+export default function BookingCalendar({ bookings, onRefresh }: BookingCalendarProps) {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [viewMode, setViewMode] = useState<'month' | 'week'>('month');
+  const [selectedBooking, setSelectedBooking] = useState<IBooking | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Get days in current month
   const getDaysInMonth = (date: Date) => {
@@ -64,6 +68,20 @@ export default function BookingCalendar({ bookings }: BookingCalendarProps) {
       }
       return newDate;
     });
+  };
+
+  const handleBookingClick = (booking: IBooking) => {
+    setSelectedBooking(booking);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedBooking(null);
+  };
+
+  const handleDeleteBooking = (bookingId: string) => {
+    // This will be handled by the modal and parent component refresh
   };
 
   const monthName = currentDate.toLocaleDateString('ms-MY', {
@@ -128,9 +146,11 @@ export default function BookingCalendar({ bookings }: BookingCalendarProps) {
                   {getBookingsForDate(day).map((booking, idx) => (
                     <div
                       key={idx}
-                      className={`text-xs p-1 rounded text-white ${
+                      onClick={() => handleBookingClick(booking)}
+                      className={`text-xs p-1 rounded text-white cursor-pointer hover:opacity-80 transition-opacity ${
                         booking.bilik === 'War Room 1' ? 'bg-blue-500' : 'bg-green-500'
                       }`}
+                      title="Klik untuk lihat butiran"
                     >
                       <div className="font-medium">{booking.bilik}</div>
                       <div>{formatTime(booking.masaMula)} - {formatTime(booking.masaTamat)}</div>
@@ -155,7 +175,8 @@ export default function BookingCalendar({ bookings }: BookingCalendarProps) {
               .map((booking, index) => (
                 <div
                   key={index}
-                  className="flex justify-between items-center p-3 bg-gray-50 rounded border"
+                  onClick={() => handleBookingClick(booking)}
+                  className="flex justify-between items-center p-3 bg-gray-50 rounded border cursor-pointer hover:bg-gray-100 transition-colors"
                 >
                   <div>
                     <div className="font-medium">{booking.namaMeeting}</div>
@@ -176,6 +197,14 @@ export default function BookingCalendar({ bookings }: BookingCalendarProps) {
           )}
         </div>
       </div>
+
+      <BookingModal
+        booking={selectedBooking}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onDelete={handleDeleteBooking}
+        onRefresh={onRefresh}
+      />
     </div>
   );
 }

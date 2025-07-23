@@ -104,7 +104,7 @@ export default function HomePage() {
 
       {/* Tab Content */}
       {activeTab === 'calendar' ? (
-        <BookingCalendar bookings={bookings} />
+        <BookingCalendar bookings={bookings} onRefresh={fetchBookings} />
       ) : (
         <BookingForm onBookingCreated={handleBookingCreated} />
       )}
