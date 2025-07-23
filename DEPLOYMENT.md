@@ -66,13 +66,16 @@ git push -u origin main
 #### c) Add Environment Variables
 Sebelum deploy, tambah environment variables:
 
-1. Klik "Environment Variables"
-2. Tambah variable:
+1. Klik "Environment Variables" tab
+2. Tambah variable baru:
    - **Name**: `MONGODB_URI`
-   - **Value**: Connection string MongoDB Atlas anda
-   - **Environment**: Production, Preview, Development
+   - **Value**: `mongodb+srv://NG999:F98sycXDgpYKbxnX@cluster0.bjsvjuf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
+   - **Environments**: Pilih "Production", "Preview", dan "Development"
 
-3. Klik "Deploy"
+3. Klik "Add" untuk save
+4. Klik "Deploy" untuk start deployment
+
+**PENTING**: Jangan gunakan @ symbol dalam environment variable names di Vercel. Gunakan nama variable terus seperti `MONGODB_URI`.
 
 ### 4. TESTING DEPLOYMENT
 
@@ -107,15 +110,25 @@ Vercel akan auto-deploy setiap kali anda push ke main branch.
 
 ### 6. TROUBLESHOOTING
 
-#### a) Build Errors
+#### a) Environment Variable Issues
+Jika dapat error "environment variable references secret which does not exist":
+
+1. **Vercel Dashboard**: Pergi ke Project Settings → Environment Variables
+2. **Check Variable Name**: Pastikan nama adalah `MONGODB_URI` (bukan @mongodb_uri)
+3. **Check Value**: Pastikan value adalah connection string penuh
+4. **Redeploy**: Klik "Redeploy" di Deployments tab selepas set environment variables
+
+#### b) Build Errors
 - Check TypeScript errors di Vercel build logs
 - Pastikan semua dependencies ada dalam package.json
 - Test `npm run build` secara local dahulu
 
 #### b) Database Connection Issues
-- Verify MONGODB_URI di Vercel environment variables
-- Pastikan MongoDB Atlas whitelist IP Vercel
+- Verify MONGODB_URI di Vercel environment variables (pastikan tidak ada @ symbol dalam nama variable)
+- Pastikan value environment variable adalah connection string yang betul
+- Pastikan MongoDB Atlas whitelist IP Vercel (0.0.0.0/0)
 - Check MongoDB Atlas connection limits
+- Test connection string dalam .env.local secara local dahulu
 
 #### c) API Errors
 - Check Vercel Functions logs
