@@ -31,10 +31,6 @@ export default function RootLayout({
                     src="/logo999.jpg" 
                     alt="NG MERS 999 Logo" 
                     className="h-10 w-auto sm:h-12 md:h-16 object-contain transition-opacity duration-200 hover:opacity-90"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.style.display = 'none';
-                    }}
                   />
                 </div>
               </div>
